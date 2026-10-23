@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -61,6 +62,12 @@
       border: 1px solid var(--bs-border-color);
       border-radius: 12px;
       margin-top: 1rem;
+    }
+
+    .grape-chart {
+      max-width: 750px;
+      width: 100%;
+      height: auto;
     }
 
     footer {
@@ -172,14 +179,13 @@
         Elaborat per Victoria Mabel
       </p>
 
-      <a class="btn btn-primary btn-lg mt-2"
-        href="#objectiu">
+      <a class="btn btn-primary btn-lg mt-2" href="#objectiu">
         <i class="fa-solid fa-book-open me-2"></i>
         Descobreix el projecte
       </a>
     </header>
 
-    <!-- Introducció -->
+    <!-- 1. Objectiu del treball -->
     <section class="content-section" id="objectiu">
       <h2 class="h3">
         <i class="fa-solid fa-bullseye me-2"></i>
@@ -208,7 +214,7 @@
       </p>
     </section>
 
-    <!-- Què és la IA -->
+    <!-- 2. Què és la IA -->
     <section class="content-section">
       <h2 class="h3">
         <i class="fa-solid fa-robot me-2"></i>
@@ -235,7 +241,7 @@
       </p>
     </section>
 
-    <!-- Google Acadèmic -->
+    <!-- 3. Google Acadèmic -->
     <section class="content-section">
       <h2 class="h3">
         <i class="fa-solid fa-graduation-cap me-2"></i>
@@ -260,7 +266,7 @@
       </p>
     </section>
 
-    <!-- Comparació -->
+    <!-- 4. Comparació -->
     <section class="content-section" id="comparacio">
       <h2 class="h3">
         <i class="fa-solid fa-scale-balanced me-2"></i>
@@ -306,8 +312,8 @@
       </div>
     </section>
 
-    <!-- Recerca sobre el raïm -->
-    <section class="content-section">
+    <!-- 5. Recerca sobre el raïm -->
+    <section class="content-section" id="raim">
       <h2 class="h3">
         <i class="fa-solid fa-seedling me-2"></i>
         5. El raïm ecològic i convencional
@@ -320,6 +326,23 @@
         les condicions de cultiu, la maduració i els mètodes
         utilitzats per mesurar els nutrients.
       </p>
+
+      <!-- Gràfic científic del raïm -->
+      <div class="text-center my-4">
+        <h3 class="h5">Gràfic científic sobre els compostos del raïm</h3>
+
+        <img
+          src="grafic-raim.png"
+          alt="Gràfic científic dels compostos presents en les llavors, la pell i la polpa del raïm"
+          class="img-fluid rounded shadow grape-chart"
+          loading="lazy"
+        >
+
+        <p class="text-secondary small mt-2">
+          El gràfic mostra diferents compostos fenòlics del raïm.
+          Cal consultar l'article original per interpretar-ne les dades.
+        </p>
+      </div>
 
       <h3 class="h5 mt-4">Paraules clau per a la recerca</h3>
 
@@ -338,9 +361,15 @@
         </a>
         per localitzar estudis científics.
       </p>
+
+      <p>
+        <strong>Nota:</strong> la presència d'un compost en el raïm
+        no demostra per si sola que la quantitat sigui més alta
+        en el cultiu ecològic que en el convencional.
+      </p>
     </section>
 
-    <!-- Articles científics -->
+    <!-- 6. Articles científics -->
     <section class="content-section" id="articles">
       <h2 class="h3">
         <i class="fa-solid fa-book-open me-2"></i>
@@ -398,7 +427,7 @@
       </div>
     </section>
 
-    <!-- Conclusions -->
+    <!-- 7. Conclusions -->
     <section class="content-section" id="conclusions">
       <h2 class="h3">
         <i class="fa-solid fa-lightbulb me-2"></i>
