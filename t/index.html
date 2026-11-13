@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exemple didàctic: dades reals d'un article i conclusions bilateral vs unilateral</title>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root {
+    --verd: #2e7d32;
+    --verd-fosc: #1b5e20;
+    --verd-clar: #e8f5e9;
+    --groc: #fff8e1;
+    --taronja: #ef6c00;
+    --blau: #1565c0;
+    --blau-clar: #e3f2fd;
+    --vermell: #c62828;
+    --vermell-clar: #ffebee;
+    --gris: #f5f5f5;
+    --text: #1a1a1a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    max-width: 1000px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    line-height: 1.65;
+    color: var(--text);
+    background: #fafafa;
+  }
+  h1 { color: var(--verd-fosc); border-bottom: 3px solid var(--verd); padding-bottom: .3rem; font-size: 1.4rem; }
+  h2 { color: var(--verd); margin-top: 1.8rem; font-size: 1.15rem; border-left: 4px solid var(--verd); padding-left: .6rem; }
+  h3 { color: var(--verd-fosc); font-size: 1.02rem; margin-top: 1.2rem; }
+
+  .box {
+    background: #fff;
+    border-left: 5px solid var(--verd);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  .box.nota { background: var(--groc); border-left-color: var(--taronja); font-size: .93rem; }
+  .box.result { background: var(--verd-clar); border-left-color: var(--verd-fosc); font-weight: 600; }
+  .box.avís { background: var(--vermell-clar); border-left-color: var(--vermell); }
+  .box.info { background: var(--blau-clar); border-left-color: var(--blau); }
+
+  /* Taula resum */
+  .taula-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    background: #fff;
+    margin: 1rem 0;
+  }
+  table.resum {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 520px;
+    font-size: .92rem;
+  }
+  table.resum th,
+  table.resum td {
+    border: 1px solid #c8e6c9;
+    padding: .5rem .6rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+  table.resum thead th {
+    background: var(--verd);
+    color: #fff;
+    font-size: .9rem;
+  }
+  table.resum tbody tr:nth-child(even) { background: var(--gris); }
+  table.resum tbody tr:hover { background: var(--verd-clar); }
+
+  /* Taula comparació bilateral vs unilateral */
+  table.comparacio {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 540px;
+    font-size: .92rem;
+  }
+  table.comparacio th,
+  table.comparacio td {
+    border: 1px solid #c8e6c9;
+    padding: .5rem .6rem;
+    text-align: center;
+  }
+  table.comparacio thead th {
+    background: #37474f;
+    color: #fff;
+    font-size: .9rem;
+  }
+  table.comparacio tbody tr.bil td:first-child { border-left: 4px solid var(--blau); }
+  table.comparacio tbody tr.uni td:first-child { border-left: 4px solid var(--vermell); }
+  table.comparacio tbody tr.bil { background: #e3f2fd; }
+  table.comparacio tbody tr.uni { background: #ffebee; }
+  .ok { color: #2e7d32; font-weight: 700; }
+  .no { color: #c62828; font-weight: 700; }
+
+  /* Passos càlcul */
+  .calc {
+    background: #fff;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: .8rem 1rem;
+    margin: .8rem 0;
+    overflow-x: auto;
+  }
+  .calc .et {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #666;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+
+  /* Dues columnes conclusions */
+  .dues-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .dues-cols > div {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  .dues-cols .bil { border-top: 4px solid var(--blau); }
+  .dues-cols .uni { border-top: 4px solid var(--vermell); }
+  .dues-cols h4 { margin: 0 0 .5rem; font-size: 1rem; }
+  .dues-cols .bil h4 { color: var(--blau); }
+  .dues-cols .uni h4 { color: var(--vermell); }
+  @media (max-width: 640px) { .dues-cols { grid-template-columns: 1fr; } }
+
+  @media (max-width: 600px) {
+    body { font-size: 15px; padding: 0 .6rem; }
+    h1 { font-size: 1.15rem; }
+    table.resum, table.comparacio { font-size: .82rem; min-width: 460px; }
+    table.resum th, table.resum td,
+    table.comparacio th, table.comparacio td { padding: .35rem .35rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Exemple didàctic: dades reals d'un article i conclusions bilateral vs. unilateral</h1>
+
+<div class="box nota">
+  <strong>Context.</strong> Un alumne ha trobat un article original a <em>PubMed</em> que compara el contingut de
+  <strong>licopè (mg/100 g)</strong> en tomàquets ecològics vs. convencionals. L'article dóna
+  <strong>mitjana</strong>, <strong>desviació estàndard (SD)</strong> i <strong>mida de mostra (n)</strong>
+  per a cada grup. L'alumne extreu aquestes dades (exemple il·lustratiu):
+</div>
+
+<!-- ============================================================ -->
+<h2>1. Dades extretes de l'article</h2>
+
+<div class="taula-wrap">
+  <table class="resum">
+    <thead>
+      <tr>
+        <th>Grup</th>
+        <th>\(n\)</th>
+        <th>Mitjana \(\bar{x}\)</th>
+        <th>SD \(s\)</th>
+        <th>Variància \(s^2\)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ecològic (A)</td>
+        <td>12</td>
+        <td>9,80</td>
+        <td>1,20</td>
+        <td>1,44</td>
+      </tr>
+      <tr>
+        <td>Convencional (B)</td>
+        <td>12</td>
+        <td>8,90</td>
+        <td>1,10</td>
+        <td>1,21</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<h2>2. Càlcul del test t de Welch</h2>
+
+<div class="calc">
+  <div class="et">Estadístic t</div>
+  \[
+    t = \frac{9{,}80 - 8{,}90}{\sqrt{\dfrac{1{,}44}{12} + \dfrac{1{,}21}{12}}}
+      = \frac{0{,}90}{\sqrt{0{,}1200 + 0{,}1008}}
+      = \frac{0{,}90}{0{,}4700} \approx 1{,}915
+  \]
+</div>
+
+<div class="calc">
+  <div class="et">Graus de llibertat de Welch</div>
+  \[
+    df = \frac{(0{,}1200 + 0{,}1008)^2}{\dfrac{0{,}1200^2}{11} + \dfrac{0{,}1008^2}{11}}
+       = \frac{0{,}2208^2}{0{,}001309 + 0{,}000924}
+       \approx 21{,}8 \;\to\; 21
+  \]
+</div>
+
+<!-- ============================================================ -->
+<h2>3. Comparació amb la taula t (α = 0,05)</h2>
+
+<div class="taula-wrap">
+  <table class="comparacio">
+    <thead>
+      <tr>
+        <th>Tipus de contrast</th>
+        <th>Valor crític \(t_{crit}\)</th>
+        <th>Comparació</th>
+        <th>Decisió</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bil">
+        <td><strong>Bilateral</strong><br><span style="font-size:.8rem">(α/2 = 0,025, df = 21)</span></td>
+        <td>2,080</td>
+        <td>\(1{,}915 < 2{,}080\)</td>
+        <td class="no">❌ No rebutgem H₀</td>
+      </tr>
+      <tr class="uni">
+        <td><strong>Unilateral</strong><br><span style="font-size:.8rem">(α = 0,05, df = 21)</span></td>
+        <td>1,721</td>
+        <td>\(1{,}915 > 1{,}721\)</td>
+        <td class="ok">✅ Rebutgem H₀</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<h2>4. Conclusions</h2>
+
+<div class="dues-cols">
+  <div class="bil">
+    <h4>Conclusió bilateral</h4>
+    <p>
+      Amb un contrast <strong>bilateral</strong> (α = 0,05), \(t = 1{,}915\)
+      <strong>no supera</strong> el valor crític \(t_{0{,}025}(21) = 2{,}080\).
+    </p>
+    <p>
+      Per tant, <strong>no hi ha evidència suficient</strong> per afirmar que el contingut de licopè
+      difereixi entre tomàquets ecològics i convencionals. La diferència observada
+      (0,90 mg/100 g) podria ser deguda a l'atzar mostral.
+    </p>
+  </div>
+  <div class="uni">
+    <h4>Conclusió unilateral</h4>
+    <p>
+      Si <strong>abans de veure les dades</strong> haguéssim formulat la hipòtesi direccional
+      \(H_1: \mu_{eco} > \mu_{conv}\) (per exemple, perquè estudis previs suggereixen que l'estrès
+      de la planta afavoreix la síntesi de licopè), amb un contrast <strong>unilateral</strong> (α = 0,05),
+      \(t = 1{,}915\) <strong>sí supera</strong> el valor crític \(t_{0{,}05}(21) = 1{,}721\).
+    </p>
+    <p>
+      Conclouríem que el tomàquet ecològic té <strong>significativament més licopè</strong>
+      que el convencional.
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>5. Lliçó didàctica</h2>
+
+<div class="box avís">
+  <strong>⚠️ El mateix conjunt de dades pot donar conclusions oposades segons el tipus de contrast!</strong>
+  <ul style="margin:.5rem 0 0">
+    <li><strong>Bilateral</strong> → més conservador, més difícil rebutjar H₀.</li>
+    <li><strong>Unilateral</strong> → més potent, però <strong>només vàlid si la direcció s'havia decidit abans de mirar les dades</strong>.</li>
+    <li>Triar unilateral <em>després</em> de veure que el bilateral no és significatiu és <strong>mala praxi</strong> (infla el risc d'error tipus I).</li>
+  </ul>
+</div>
+
+<div class="box result">
+  <strong>Resum en una línia:</strong> Amb les mateixes dades (\(t = 1{,}915\), df = 21):
+  bilateral → <strong>no significatiu</strong>; unilateral → <strong>significatiu</strong>.
+  La diferència és que el bilateral reparteix α entre les dues cues i exigeix un \(t\)
+  més gran per rebutjar H₀.
+</div>
+
+</body>
+</html>
